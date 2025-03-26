@@ -1,85 +1,75 @@
-import React from "react";
-import Gradient from "@/assets/Icons/Gradient";
-import DocumentData from "@/assets/Icons/DocumentData";
-import LightBulbPerson from "@/assets/Icons/LightbulbPerson";
-import Rocket from "@/assets/Icons/Rocket";
-import Logo from "@/assets/Icons/Logo";
+import React, { useState } from "react";
 import { Box } from "@/components/ui/box";
-import { ScrollView } from "react-native";
+import { Platform, SafeAreaView, ScrollView } from "react-native";
 import { Text } from "@/components/ui/text";
 
 import { Link } from "expo-router";
-
-const FeatureCard = ({ iconSvg: IconSvg, name, desc }: any) => {
-  return (
-    <Box
-      className="flex-column border border-w-1 border-outline-700 md:flex-1 m-2 p-4 rounded"
-      key={name}
-    >
-      <Box className="items-center flex flex-row">
-        <Text>
-          <IconSvg />
-        </Text>
-        <Text className="text-typography-white font-medium ml-2 text-xl">
-          {name}
-        </Text>
-      </Box>
-      <Text className="text-typography-400 mt-2">{desc}</Text>
-    </Box>
-  );
-};
+import { Card } from "@/components/ui/card";
+import { Image } from "@/components/ui/image";
+import { VStack } from "@/components/ui/vstack";
+import { Heading } from "@/components/ui/heading";
+import { Button, ButtonText } from "@/components/ui/button";
+import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
+import { ThemeProvider } from "./ThemeProvider";
+import BasicForm from "./basicForm";
+import DynamicFieldsForm from "./dynamicFieldForms";
 
 export default function Home() {
+  const [colorMode, setColorMode] = useState<"light" | "dark">("light");
   return (
-    <Box className="flex-1 bg-black h-[100vh]">
-      <ScrollView
-        style={{ height: "100%" }}
-        contentContainerStyle={{ flexGrow: 1 }}
-      >
-        <Box className="absolute h-[500px] w-[500px] lg:w-[700px] lg:h-[700px]">
-          <Gradient />
-        </Box>
-        <Box className="flex flex-1 items-center my-16 mx-5 lg:my-24 lg:mx-32">
-          <Box className="gap-10 base:flex-col sm:flex-row justify-between sm:w-[80%] md:flex-1">
-            <Box className="bg-background-template py-2 px-6 rounded-full items-center flex-column md:flex-row md:self-start">
-              <Text className="text-typography-white font-normal">
-                Get started by editing
-              </Text>
-              <Text className="text-typography-white font-medium ml-2">
-                ./App.tsx
-              </Text>
-            </Box>
-            <Link href="/tabs/">
-              <Box className="bg-background-template py-2 px-6 rounded-full items-center flex-column sm:flex-row md:self-start">
-                <Text className="text-typography-white font-normal">
-                  Explore Tab Navigation
-                </Text>
-              </Box>
-            </Link>
+    <ThemeProvider>
+      <SafeAreaView>
+        <Card className="p-5 rounded-lg max-w-[360px] ml-3">
+          <Image
+            source={{
+              uri: "https://gluestack.github.io/public-blog-video-assets/saree.png"
+            }}
+            className="mb-4 h-[240px] w-full rounded-md aspect-[4/3]"
+            alt="image"
+          />
+          <Text className="text-lg font-normal mb-2 text-typography-700">
+            {" "}
+            Fashion Clothing
+          </Text>
+          <VStack className="mb-4">
+            <Heading size="md" className="mb-2">
+              Cotton Kurta
+            </Heading>
+            <Text size="sm">
+              Floral embroidered notch neck thread work cotton kurta in white
+              and black.
+            </Text>
+          </VStack>
+          <Box className="flex-col sm:flex-row">
+            <Button className="px-4 py-2 mt-0 mb-2 sm:mr-3 sm:mb-0 sm:flex-1">
+              <ButtonText size="sm" className="text-typography-600">
+                Wishlist
+              </ButtonText>
+            </Button>
           </Box>
-          <Box className="flex-1 justify-center items-center h-[20px] w-[300px] lg:h-[160px] lg:w-[400px]">
-            <Logo />
+          <Button
+            style={{
+              backgroundColor: Platform.OS === "ios" ? "blue" : "green",
+              marginBottom: 0
+            }}
+          >
+            Platform-Specific Button
+          </Button>
+        </Card>
+        <GluestackUIProvider mode={colorMode}>
+          <Box className="bg-primary flex-1 mb-2">
+            <Button
+              onPress={() => {
+                setColorMode(colorMode === "light" ? "dark" : "light");
+              }}
+            >
+              <ButtonText>Toggle color mode</ButtonText>
+            </Button>
           </Box>
-
-          <Box className="flex-column md:flex-row">
-            <FeatureCard
-              iconSvg={DocumentData}
-              name="Docs"
-              desc="Find in-depth information about gluestack features and API."
-            />
-            <FeatureCard
-              iconSvg={LightBulbPerson}
-              name="Learn"
-              desc="Learn about gluestack in an interactive course with quizzes!"
-            />
-            <FeatureCard
-              iconSvg={Rocket}
-              name="Deploy"
-              desc="Instantly drop your gluestack site to a shareable URL with vercel."
-            />
-          </Box>
-        </Box>
-      </ScrollView>
-    </Box>
+        </GluestackUIProvider>
+        <BasicForm />
+        <DynamicFieldsForm />
+      </SafeAreaView>
+    </ThemeProvider>
   );
 }
