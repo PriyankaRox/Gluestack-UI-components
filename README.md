@@ -1,5 +1,11 @@
 # Welcome to your Expo app 👋
 
+# GLuestack UI Components
+
+## React Hook Form and Zod
+
+## Gluestack-UI Components card
+
 This is an [Expo](https://expo.dev) project created with [`create-gluestack-app`](https://www.npmjs.com/package/create-gluestack).
 
 ## Get started
